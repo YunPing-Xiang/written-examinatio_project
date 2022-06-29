@@ -49,7 +49,8 @@ class spider:
                 # 更新mysql的url_data的status字段状态为clicked
                 update_sql = 'update url_data set status = "clicked" where url = {}'.format(url)
                 # 弹窗检测等待提示,更新数据库status字段
-                if driver.find_element(By.XPATH, '/div/div/div[1]').get_attribute() == "We've queued this item for an update! Check back in a minute...":
+                if driver.find_element(By.XPATH,
+                                       '/div/div/div[1]').get_attribute() == "We've queued this item for an update! Check back in a minute...":
                     update_sql = 'update url_data set status = "queued" where url = {}'.format(url)
                 else:
                     pass
@@ -57,4 +58,12 @@ class spider:
                 # 更新mysql的url_data的status字段状态为error
                 update_sql = 'update url_data set status = "error" where url = {}'.format(url)
             self.mysql_execute(update_sql)
+
+
+if __name__ == '__main__':
+    create_sql = "create table url_data(" \
+                 "id INT(11) NOT NULL AUTO_INCREMENT," \
+                 "url VARCHAR(255) NOT NULL," \
+                 "status VARCHAR(255) NULL," \
+                 "PRIMARY KEY (`id`))ENGINE=InnoDB AUTO_INCREMENT 1 DEFAULT CHARSET=utf8; "
 
